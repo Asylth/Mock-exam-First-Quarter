@@ -5,36 +5,18 @@
 #include <stdlib.h>
 #include <vector>
 #include <cstdlib>
+#include <algorithm>
 
-bool passcode();
-void printpass();
-void lockmove();
-bool passcheck();
+#include "Password.h"
+#include "Tasks.h"
+
 void menu();
+int genrand(int);
 void task1();
 void task2();
-//void task3();
+void task3();
 //void task4();
 
-const int password = 14523;
-const int lockh = 3;
-const int lockl = 3;
-char lockArray[lockh][lockl] = {
-	{'*', '2', '3'},
-	{'4', '5', '6'},
-	{'7', '8', '9'},
-};
-int lockvalArray[lockh][lockl] = {
-	{1, 2, 3},
-	{4, 5, 6},
-	{7, 8, 9},
-};
-int passent = 1;
-int lockmoves = 0;
-int attempts = 0;
-int lockposx = 0;
-int lockposy = 0;
-bool rightpas = false;
 
 int main()
 {
@@ -50,86 +32,23 @@ int main()
 }
 
 
-bool passcode() {
-	//do {
-	while (lockmoves < 4) {
-		printpass();
-		//char input = _getch();
-		//std::cout << "input: " << input << std::endl;
-		lockmove();
-		lockmoves++;
-		passcheck();
-		if (rightpas == true) {
-			return true;
-		}
-		std::cout << "lockmoves: " << lockmoves << std::endl;
-	};
-}
-
-void printpass() {
-	std::cout << "--------------" << std::endl;
-	for (int j = 0; j < lockh; j++) {
-		for (int i = 0; i < lockl; i++) {
-			std::cout << " | ";
-			std::cout << lockArray[j][i];
-			if (i == 2) {
-				std::cout << " | " << std::endl;
-			}
-		}
-		std::cout << std::endl;
+int genrand(int choise) {
+	switch (choise) {
+	case 1:
+		return rand() % 6 + 1;
+		break;
+	case 2:
+		return rand() % 20 + 1;
+		break;
 	}
-}
-
-bool passcheck() {
-	passent = passent * 10;
-	passent = passent + lockvalArray[lockposy][lockposx];
-	std::cout << passent << std::endl;
-	if (passent == password) {
-		rightpas = true;
-		return true;
-	}
-	return false;
-}
-
-void lockmove() {
-	char ch;
-	lockArray[lockposy][lockposx] = lockArray[lockposy][lockposx + 1 ] - 1 ;
-	ch = _getch();
-	switch (_getch()) {
-	case 'w': case 'W': case 'H': //up
-		if (lockposy != 0) {
-			lockposy = lockposy - 1;
-		}
-		break;
-	case 's': case 'S': case 'P': //down
-		if (lockposy != 2) {
-			lockposy = lockposy + 1;
-		}
-		break;
-	case 'a': case 'A': case 'K': // left
-		if (lockposx != 0) {
-			lockposx = lockposx - 1;
-		}
-		break;
-	case 'd': case 'D': case 'M': //right
-		if (lockposx != 2) {
-			lockposx = lockposx + 1;
-		}
-		break;
-	/*default:
-		std::cout << "Invalid input. Use WASD please!" << std::endl;
-		break;*/
-	}
-	lockArray[lockposy][lockposx] = '*';
 }
 
 void menu() {
 	int pchoise;
 	std::cout << "1. Task 1\n";
 	std::cout << "2. Task 2\n";
-	std::cout << "3. Task 3\n";
-	std::cout << "4. Task 4\n";
-	std::cout << "5. Quit program\n";
+	std::cout << "3. Task 3 & 4\n";
+	std::cout << "4. Quit program\n";
 	std::cin >> pchoise;
 	switch (pchoise) {
 	case 1:
@@ -139,10 +58,9 @@ void menu() {
 		task2();
 		break;
 	case 3:
+		task3();
 		break;
 	case 4:
-		break;
-	case 5:
 		std::_Exit;
 		break;
 	};
@@ -159,7 +77,7 @@ void task1() {
 	int six = 0;
 
 	for (int i = 0; i <= 2000; i++) {
-		diceroll = rand() % 6 + 1;
+		diceroll = genrand(1);
 		//std::cout << diceroll;
 		switch (diceroll) {
 		case 1:
@@ -190,6 +108,52 @@ void task1() {
 }
 
 void task2() {
+	int Vsize = 12;
+	char letter = 'A';
+	for (int i = 0; i <= Vsize; i++) {
+		task2V.push_back(genrand(2));
+	}
 
+	std::cout << "No \t" << "Name \t" << "Value\t" << "Health Bar" << std::endl;
+	std::cout << "---------------------------------------------------" << std::endl;
+	for (int i = 0; i < task2V.size(); i++) {
+		std::cout << i << "\t";
+		std::cout << static_cast<char>(letter + i) << "\t";
+		std::cout << task2V[i] << "\t";
+		for (int j = 0; j < task2V[i]; j++) {
+			std::cout << "*";
+		}
+		std::cout << std::endl;
+	}
+	std::sort(std::begin(task2V), std::end(task2V));
 
+	std::cout << "Sorted: " << std::endl << std::endl;
+	std::cout << "No \t" << "Name \t" << "Value\t" << "Health Bar" << std::endl;
+	std::cout << "---------------------------------------------------" << std::endl;
+	for (int i = 0; i < task2V.size(); i++) {
+		std::cout << i << "\t";
+		std::cout << static_cast<char>(letter + i) << "\t";
+		std::cout << task2V[i] << "\t";
+		for (int j = 0; j < task2V[i]; j++) {
+			std::cout << "*";
+		}
+		std::cout << std::endl;
+	}
+}
+
+void task3() {
+	//std::cout << pacA[10][8];
+	//std::cout << pacA[10][9];
+	/*for (int j = 0; j < pacH; j++) {
+		for (int i = 0; i < pacL; i++) {
+			if (pacA[j][i] == 'E'); {
+				std::cout << "Y = " << j << " X = " << i << std::endl;
+			}
+		}
+	}*/
+	do {
+		system("CLS");
+		print();
+		move();
+	} while (task3run == true);
 }
