@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <vector>
 #include <cstdlib>
+#include <algorithm>
+#include "windows.h"
 
 //task 2:
 std::vector <int> task2V{};

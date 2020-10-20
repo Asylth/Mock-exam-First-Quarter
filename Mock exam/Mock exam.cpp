@@ -6,6 +6,7 @@
 #include <vector>
 #include <cstdlib>
 #include <algorithm>
+#include "windows.h"
 
 #include "Password.h"
 #include "Tasks.h"
@@ -15,20 +16,19 @@ int genrand(int);
 void task1();
 void task2();
 void task3();
-//void task4();
 
 
 int main()
 {
 	std::srand(time(nullptr));
-	//passcode();
-	//if (attempts == 3) {
-	//	return 0;
-	//}
-	//else if (rightpas == true) {
+	passcode();
+	if (attempts == 3) {
+		return 0;
+	}
+	else if (rightpas == true) {
 	system("CLS");
 	menu();
-	//}
+	}
 }
 
 
@@ -78,7 +78,6 @@ void task1() {
 
 	for (int i = 0; i <= 2000; i++) {
 		diceroll = genrand(1);
-		//std::cout << diceroll;
 		switch (diceroll) {
 		case 1:
 			one++;
@@ -142,15 +141,6 @@ void task2() {
 }
 
 void task3() {
-	//std::cout << pacA[10][8];
-	//std::cout << pacA[10][9];
-	/*for (int j = 0; j < pacH; j++) {
-		for (int i = 0; i < pacL; i++) {
-			if (pacA[j][i] == 'E'); {
-				std::cout << "Y = " << j << " X = " << i << std::endl;
-			}
-		}
-	}*/
 	do {
 		system("CLS");
 		print();

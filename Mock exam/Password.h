@@ -6,12 +6,13 @@
 #include <stdlib.h>
 #include <vector>
 #include <cstdlib>
-
+#include <algorithm>
+#include "windows.h"
 
 bool passcode();
 void printpass();
 void lockmove();
-bool passcheck();
+void passcheck();
 
 
 const int password = 14523;
@@ -37,22 +38,29 @@ bool rightpas = false;
 
 
 bool passcode() {
-	//do {
-	while (lockmoves < 4) {
-		printpass();
-		//char input = _getch();
-		//std::cout << "input: " << input << std::endl;
-		lockmove();
-		lockmoves++;
-		passcheck();
-		if (rightpas == true) {
-			return true;
-		}
-		std::cout << "lockmoves: " << lockmoves << std::endl;
-	};
+	do {
+		while (lockmoves < 4) {
+			printpass();
+			//char input = _getch();
+			//std::cout << "input: " << input << std::endl;
+			lockmove();
+			lockmoves++;
+			passcheck();
+			if (rightpas == true) {
+				return true;
+			}
+			//std::cout << "lockmoves: " << lockmoves << std::endl;
+		};
+		std::cout << "Wrong code! Try again\n";
+		Sleep(1500);
+		lockmoves = 0;
+		attempts++;
+	} while (attempts <= 3);
+
 }
 
 void printpass() {
+	system("CLS");
 	std::cout << "--------------" << std::endl;
 	for (int j = 0; j < lockh; j++) {
 		for (int i = 0; i < lockl; i++) {
@@ -66,15 +74,13 @@ void printpass() {
 	}
 }
 
-bool passcheck() {
+void passcheck() {
 	passent = passent * 10;
 	passent = passent + lockvalArray[lockposy][lockposx];
-	std::cout << passent << std::endl;
+	//std::cout << passent << std::endl;
 	if (passent == password) {
 		rightpas = true;
-		return true;
 	}
-	return false;
 }
 
 void lockmove() {
